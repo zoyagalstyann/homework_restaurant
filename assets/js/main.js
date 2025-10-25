@@ -1,8 +1,8 @@
 // Main JavaScript file
 class RestaurantApp {
     constructor() {
-        this.isProduction = false; // Set to true for production mode with PHP API
-        this.apiBase = '/api'; // API base URL for production
+        this.isProduction = true;
+        this.apiBase = 'http://localhost/api';
         this.init();
     }
 

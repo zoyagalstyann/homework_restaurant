@@ -1,4 +1,4 @@
-import { getCartFromDB, saveCartToDB } from './supabase-client.js';
+import { getCartFromDB, saveCartToDB } from './api-client.js';
 
 class MenuManager {
     constructor() {

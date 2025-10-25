@@ -1,4 +1,4 @@
-import { checkAdminLogin, setAdminLogin } from './supabase-client.js';
+import { checkAdminLogin, adminLogin, setAdminLogin } from './api-client.js';
 
 class AdminManager {
     constructor() {
@@ -88,9 +88,10 @@ class AdminManager {
         const password = document.getElementById('adminPassword').value;
         const loginError = document.getElementById('loginError');
 
-        if (password === 'admin123') {
+        const success = await adminLogin(password);
+
+        if (success) {
             this.isLoggedIn = true;
-            await setAdminLogin(true);
             await this.checkLogin();
             this.loadMenuItems();
 
