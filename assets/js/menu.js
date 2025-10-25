@@ -1,14 +1,16 @@
-// Menu page functionality
+import { getCartFromDB, saveCartToDB } from './supabase-client.js';
+
 class MenuManager {
     constructor() {
-        this.cart = JSON.parse(localStorage.getItem('cart') || '[]');
+        this.cart = [];
         this.menuItems = [];
         this.filteredItems = [];
-        
+
         this.init();
     }
 
-    init() {
+    async init() {
+        this.cart = await getCartFromDB();
         this.setupEventListeners();
         this.loadMenuItems();
         this.renderCart();
@@ -118,12 +120,12 @@ class MenuManager {
         this.renderMenuItems();
     }
 
-    addToCart(itemId) {
+    async addToCart(itemId) {
         const item = this.menuItems.find(item => item.id === itemId);
         if (!item) return;
 
         const existingCartItem = this.cart.find(cartItem => cartItem.id === itemId);
-        
+
         if (existingCartItem) {
             existingCartItem.quantity += 1;
         } else {
@@ -133,31 +135,31 @@ class MenuManager {
             });
         }
 
-        this.saveCart();
+        await this.saveCart();
         this.renderCart();
         this.updateCartCount();
-        
+
         app.showNotification(`${item.name} added to cart`);
     }
 
-    updateQuantity(itemId, change) {
+    async updateQuantity(itemId, change) {
         const cartItem = this.cart.find(item => item.id === itemId);
         if (!cartItem) return;
 
         cartItem.quantity += change;
 
         if (cartItem.quantity <= 0) {
-            this.removeFromCart(itemId);
+            await this.removeFromCart(itemId);
         } else {
-            this.saveCart();
+            await this.saveCart();
             this.renderCart();
             this.updateCartCount();
         }
     }
 
-    removeFromCart(itemId) {
+    async removeFromCart(itemId) {
         this.cart = this.cart.filter(item => item.id !== itemId);
-        this.saveCart();
+        await this.saveCart();
         this.renderCart();
         this.updateCartCount();
     }
@@ -263,7 +265,6 @@ class MenuManager {
             status: 'pending'
         };
 
-        // Validate required fields
         if (!orderData.customerName || !orderData.customerPhone || !orderData.customerAddress) {
             app.showNotification('Please fill in all required fields', 'error');
             return;
@@ -275,17 +276,14 @@ class MenuManager {
                 body: JSON.stringify(orderData)
             });
 
-            // Clear cart
             this.cart = [];
-            this.saveCart();
+            await this.saveCart();
             this.renderCart();
             this.updateCartCount();
 
-            // Close modals
             this.closeOrderModal();
             this.toggleCart(false);
 
-            // Reset form
             document.getElementById('orderForm').reset();
 
             app.showNotification('Order placed successfully!');
@@ -296,8 +294,8 @@ class MenuManager {
         }
     }
 
-    saveCart() {
-        localStorage.setItem('cart', JSON.stringify(this.cart));
+    async saveCart() {
+        await saveCartToDB(this.cart);
     }
 }
 

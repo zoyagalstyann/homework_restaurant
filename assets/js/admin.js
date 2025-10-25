@@ -1,23 +1,25 @@
-// Admin page functionality
+import { checkAdminLogin, setAdminLogin } from './supabase-client.js';
+
 class AdminManager {
     constructor() {
-        this.isLoggedIn = localStorage.getItem('adminLoggedIn') === 'true';
+        this.isLoggedIn = false;
         this.menuItems = [];
         this.editingItem = null;
-        
+
         this.init();
     }
 
-    init() {
-        this.checkLogin();
+    async init() {
+        this.isLoggedIn = await checkAdminLogin();
+        await this.checkLogin();
         this.setupEventListeners();
-        
+
         if (this.isLoggedIn) {
             this.loadMenuItems();
         }
     }
 
-    checkLogin() {
+    async checkLogin() {
         const loginModal = document.getElementById('loginModal');
         const adminContent = document.getElementById('adminContent');
 
@@ -80,18 +82,18 @@ class AdminManager {
         }
     }
 
-    handleLogin(e) {
+    async handleLogin(e) {
         e.preventDefault();
-        
+
         const password = document.getElementById('adminPassword').value;
         const loginError = document.getElementById('loginError');
-        
+
         if (password === 'admin123') {
             this.isLoggedIn = true;
-            localStorage.setItem('adminLoggedIn', 'true');
-            this.checkLogin();
+            await setAdminLogin(true);
+            await this.checkLogin();
             this.loadMenuItems();
-            
+
             if (loginError) loginError.textContent = '';
             document.getElementById('adminPassword').value = '';
         } else {
@@ -101,10 +103,10 @@ class AdminManager {
         }
     }
 
-    logout() {
+    async logout() {
         this.isLoggedIn = false;
-        localStorage.removeItem('adminLoggedIn');
-        this.checkLogin();
+        await setAdminLogin(false);
+        await this.checkLogin();
     }
 
     async loadMenuItems() {
