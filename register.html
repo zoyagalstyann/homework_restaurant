@@ -26,93 +26,123 @@
     <main>
         <div class="container">
             <div class="form-container">
-                <h1>Customer Registration</h1>
-                <p>Register and receive special discounts and offers</p>
+                <div class="form-toggle">
+                    <button class="toggle-btn active" data-form="signin">Sign In</button>
+                    <button class="toggle-btn" data-form="signup">Sign Up</button>
+                </div>
 
-                <form id="registerForm" class="form">
-                    <div class="form-row">
+                <div id="signinForm" class="auth-form active">
+                    <h1>Welcome Back</h1>
+                    <p>Sign in to your account</p>
+
+                    <form id="loginForm" class="form">
                         <div class="form-group">
-                            <label for="firstName">First Name*</label>
-                            <input type="text" id="firstName" name="firstName" required>
-                            <div class="error-message" id="firstNameError"></div>
+                            <label for="loginEmail">Email*</label>
+                            <input type="email" id="loginEmail" name="email" required>
+                            <div class="error-message" id="loginEmailError"></div>
                         </div>
+
                         <div class="form-group">
-                            <label for="lastName">Last Name*</label>
-                            <input type="text" id="lastName" name="lastName" required>
-                            <div class="error-message" id="lastNameError"></div>
+                            <label for="loginPassword">Password*</label>
+                            <input type="password" id="loginPassword" name="password" required>
+                            <div class="error-message" id="loginPasswordError"></div>
                         </div>
-                    </div>
 
-                    <div class="form-row">
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary btn-full">Sign In</button>
+                        </div>
+                    </form>
+                </div>
+
+                <div id="signupForm" class="auth-form">
+                    <h1>Customer Registration</h1>
+                    <p>Register and receive special discounts and offers</p>
+
+                    <form id="registerForm" class="form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="firstName">First Name*</label>
+                                <input type="text" id="firstName" name="firstName" required>
+                                <div class="error-message" id="firstNameError"></div>
+                            </div>
+                            <div class="form-group">
+                                <label for="lastName">Last Name*</label>
+                                <input type="text" id="lastName" name="lastName" required>
+                                <div class="error-message" id="lastNameError"></div>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="phone">Phone*</label>
+                                <input type="tel" id="phone" name="phone" required>
+                                <div class="error-message" id="phoneError"></div>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email*</label>
+                                <input type="email" id="email" name="email" required>
+                                <div class="error-message" id="emailError"></div>
+                            </div>
+                        </div>
+
                         <div class="form-group">
-                            <label for="phone">Phone*</label>
-                            <input type="tel" id="phone" name="phone" required>
-                            <div class="error-message" id="phoneError"></div>
+                            <label for="address">Address*</label>
+                            <textarea id="address" name="address" rows="2" required></textarea>
+                            <div class="error-message" id="addressError"></div>
                         </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="city">City*</label>
+                                <input type="text" id="city" name="city" required>
+                                <div class="error-message" id="cityError"></div>
+                            </div>
+                            <div class="form-group">
+                                <label for="birthDate">Birth Date</label>
+                                <input type="date" id="birthDate" name="birthDate">
+                            </div>
+                        </div>
+
                         <div class="form-group">
-                            <label for="email">Email*</label>
-                            <input type="email" id="email" name="email" required>
-                            <div class="error-message" id="emailError"></div>
+                            <label for="password">Password*</label>
+                            <input type="password" id="password" name="password" required minlength="6">
+                            <div class="error-message" id="passwordError"></div>
+                            <div class="help-text">Password must be at least 6 characters</div>
                         </div>
-                    </div>
 
-                    <div class="form-group">
-                        <label for="address">Address*</label>
-                        <textarea id="address" name="address" rows="2" required></textarea>
-                        <div class="error-message" id="addressError"></div>
-                    </div>
-
-                    <div class="form-row">
                         <div class="form-group">
-                            <label for="city">City*</label>
-                            <input type="text" id="city" name="city" required>
-                            <div class="error-message" id="cityError"></div>
+                            <label for="confirmPassword">Confirm Password*</label>
+                            <input type="password" id="confirmPassword" name="confirmPassword" required>
+                            <div class="error-message" id="confirmPasswordError"></div>
                         </div>
-                        <div class="form-group">
-                            <label for="birthDate">Birth Date</label>
-                            <input type="date" id="birthDate" name="birthDate">
+
+                        <div class="form-group checkbox-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="newsletter" name="newsletter">
+                                <span class="checkbox-custom"></span>
+                                I want to receive news and special offers
+                            </label>
                         </div>
-                    </div>
 
-                    <div class="form-group">
-                        <label for="password">Password*</label>
-                        <input type="password" id="password" name="password" required minlength="6">
-                        <div class="error-message" id="passwordError"></div>
-                        <div class="help-text">Password must be at least 6 characters</div>
-                    </div>
+                        <div class="form-group checkbox-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="terms" name="terms" required>
+                                <span class="checkbox-custom"></span>
+                                I agree to the <a href="#" class="link">Terms of Service</a>*
+                            </label>
+                            <div class="error-message" id="termsError"></div>
+                        </div>
 
-                    <div class="form-group">
-                        <label for="confirmPassword">Confirm Password*</label>
-                        <input type="password" id="confirmPassword" name="confirmPassword" required>
-                        <div class="error-message" id="confirmPasswordError"></div>
-                    </div>
-
-                    <div class="form-group checkbox-group">
-                        <label class="checkbox-label">
-                            <input type="checkbox" id="newsletter" name="newsletter">
-                            <span class="checkbox-custom"></span>
-                            I want to receive news and special offers
-                        </label>
-                    </div>
-
-                    <div class="form-group checkbox-group">
-                        <label class="checkbox-label">
-                            <input type="checkbox" id="terms" name="terms" required>
-                            <span class="checkbox-custom"></span>
-                            I agree to the <a href="#" class="link">Terms of Service</a>*
-                        </label>
-                        <div class="error-message" id="termsError"></div>
-                    </div>
-
-                    <div class="form-actions">
-                        <button type="reset" class="btn btn-secondary">Clear</button>
-                        <button type="submit" class="btn btn-primary">Register</button>
-                    </div>
-                </form>
+                        <div class="form-actions">
+                            <button type="reset" class="btn btn-secondary">Clear</button>
+                            <button type="submit" class="btn btn-primary">Register</button>
+                        </div>
+                    </form>
+                </div>
 
                 <div class="success-message" id="successMessage" style="display: none;">
-                    <h3>✅ Registration Successful!</h3>
-                    <p>Your account has been created. You can now log in with your email and password.</p>
+                    <h3>Success!</h3>
+                    <p id="successText"></p>
                 </div>
             </div>
         </div>
