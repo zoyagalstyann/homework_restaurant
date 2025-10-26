@@ -75,7 +75,7 @@ class MenuManager {
             this.renderMenuItems();
         } catch (error) {
             console.error('Failed to load menu items:', error);
-            app.showNotification('Մենյուի տվյալները բեռնելու սխալ', 'error');
+            app.showNotification('Failed to load menu items. Please try again.', 'error');
         }
     }
 

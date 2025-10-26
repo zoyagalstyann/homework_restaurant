@@ -42,7 +42,7 @@ class ReservationManager {
 
         // Required field validation
         if (field.hasAttribute('required') && !field.value.trim()) {
-            errorMessage = 'Այս դաշտը պարտադիր է';
+            errorMessage = 'This field is required';
             isValid = false;
         }
 
@@ -50,14 +50,14 @@ class ReservationManager {
         switch (field.type) {
             case 'email':
                 if (field.value && !this.isValidEmail(field.value)) {
-                    errorMessage = 'Մուտքագրեք ճիշտ էլ․հասցե';
+                    errorMessage = 'Please enter a valid email address';
                     isValid = false;
                 }
                 break;
 
             case 'tel':
                 if (field.value && !this.isValidPhone(field.value)) {
-                    errorMessage = 'Մուտքագրեք ճիշտ հեռախոսի համար';
+                    errorMessage = 'Please enter a valid phone number';
                     isValid = false;
                 }
                 break;
@@ -188,9 +188,8 @@ class ReservationManager {
     }
 
     isValidPhone(phone) {
-        // Armenian phone number validation (simplified)
-        const phoneRegex = /^(\+374|0)[0-9]{8}$/;
-        return phoneRegex.test(phone.replace(/[\s-]/g, ''));
+        const phoneRegex = /^[\d\s\-\+\(\)]+$/;
+        return phoneRegex.test(phone) && phone.replace(/[\s\-\+\(\)]/g, '').length >= 8;
     }
 }
 

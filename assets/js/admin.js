@@ -116,7 +116,7 @@ class AdminManager {
             this.renderMenuItems();
         } catch (error) {
             console.error('Failed to load menu items:', error);
-            app.showNotification('Failed to load menu items', 'error');
+            app.showNotification('Unable to load menu items. Please refresh the page.', 'error');
         }
     }
 
@@ -268,7 +268,7 @@ class AdminManager {
 
         } catch (error) {
             console.error('Failed to save item:', error);
-            app.showNotification('Failed to save dish', 'error');
+            app.showNotification(error.message || 'Unable to save dish. Please try again.', 'error');
         }
     }
 
@@ -294,7 +294,7 @@ class AdminManager {
 
             } catch (error) {
                 console.error('Failed to delete item:', error);
-                app.showNotification('Failed to delete dish', 'error');
+                app.showNotification('Unable to delete dish. Please try again.', 'error');
             }
         }
     }

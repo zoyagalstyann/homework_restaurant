@@ -27,7 +27,7 @@ export async function getCartFromDB() {
 
     try {
         const response = await fetch(`${API_BASE_URL}/cart.php?session_id=${sessionId}`);
-        if (!response.ok) throw new Error('Failed to load cart');
+        if (!response.ok) throw new Error('Unable to load your cart. Please refresh the page.');
         return await response.json();
     } catch (error) {
         console.error('Error loading cart:', error);
@@ -45,10 +45,11 @@ export async function saveCartToDB(cartData) {
             body: JSON.stringify({ session_id: sessionId, cart_data: cartData })
         });
 
-        if (!response.ok) throw new Error('Failed to save cart');
+        if (!response.ok) throw new Error('Unable to save cart. Please try again.');
         return await response.json();
     } catch (error) {
         console.error('Error saving cart:', error);
+        throw error;
     }
 }
 
@@ -57,7 +58,7 @@ export async function checkAdminLogin() {
 
     try {
         const response = await fetch(`${API_BASE_URL}/admin.php?session_token=${token}`);
-        if (!response.ok) throw new Error('Failed to check admin login');
+        if (!response.ok) throw new Error('Unable to verify admin session. Please try logging in again.');
         const data = await response.json();
         return data.is_logged_in;
     } catch (error) {
@@ -76,7 +77,7 @@ export async function adminLogin(password) {
             body: JSON.stringify({ session_token: token, password })
         });
 
-        if (!response.ok) throw new Error('Failed to login');
+        if (!response.ok) throw new Error('Login failed. Please check your credentials and try again.');
         const data = await response.json();
         return data.success;
     } catch (error) {
@@ -95,10 +96,11 @@ export async function setAdminLogin(isLoggedIn) {
             body: JSON.stringify({ session_token: token, is_logged_in: isLoggedIn })
         });
 
-        if (!response.ok) throw new Error('Failed to update admin session');
+        if (!response.ok) throw new Error('Unable to update session. Please try again.');
         return await response.json();
     } catch (error) {
         console.error('Error updating admin session:', error);
+        throw error;
     }
 }
 
@@ -113,8 +115,8 @@ export async function fetchAPI(endpoint, options = {}) {
         });
 
         if (!response.ok) {
-            const error = await response.json();
-            throw new Error(error.error || 'API request failed');
+            const error = await response.json().catch(() => ({}));
+            throw new Error(error.error || `Request failed with status ${response.status}`);
         }
 
         return await response.json();
