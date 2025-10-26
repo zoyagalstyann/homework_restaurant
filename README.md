@@ -68,7 +68,7 @@ http://localhost/restaurant-system/index.html
 
 ## API Endpoints
 
-Բոլոր API-ները գտնվում են `http://localhost/restaurant-system/api/`:
+Բոլոր API-ները գտնվում են `http://localhost/homework_restaurant/api/`:
 
 ### Cart API
 - `GET /api/cart.php?session_id={id}` - Ստանալ զամբյուղը
