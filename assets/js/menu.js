@@ -1,4 +1,4 @@
-import { getCartFromDB, saveCartToDB } from './api-client.js';
+import { getCartFromDB, saveCartToDB, getMenuItems } from './api-client.js';
 
 class MenuManager {
     constructor() {
@@ -70,12 +70,14 @@ class MenuManager {
 
     async loadMenuItems() {
         try {
-            this.menuItems = await app.apiRequest('/menuitems');
+            this.menuItems = await getMenuItems();
             this.filteredItems = [...this.menuItems];
             this.renderMenuItems();
         } catch (error) {
             console.error('Failed to load menu items:', error);
-            app.showNotification('Failed to load menu items. Please try again.', 'error');
+            if (window.app && window.app.showNotification) {
+                window.app.showNotification('Failed to load menu items. Please try again.', 'error');
+            }
         }
     }
 
@@ -139,7 +141,9 @@ class MenuManager {
         this.renderCart();
         this.updateCartCount();
 
-        app.showNotification(`${item.name} added to cart`);
+        if (window.app && window.app.showNotification) {
+            window.app.showNotification(`${item.name} added to cart`);
+        }
     }
 
     async updateQuantity(itemId, change) {
@@ -226,7 +230,9 @@ class MenuManager {
 
     openOrderModal() {
         if (this.cart.length === 0) {
-            app.showNotification('Your cart is empty', 'error');
+            if (window.app && window.app.showNotification) {
+                window.app.showNotification('Your cart is empty', 'error');
+            }
             return;
         }
 
@@ -266,7 +272,9 @@ class MenuManager {
         };
 
         if (!orderData.customerName || !orderData.customerPhone || !orderData.customerAddress) {
-            app.showNotification('Please fill in all required fields', 'error');
+            if (window.app && window.app.showNotification) {
+                window.app.showNotification('Please fill in all required fields', 'error');
+            }
             return;
         }
 
@@ -286,11 +294,15 @@ class MenuManager {
 
             document.getElementById('orderForm').reset();
 
-            app.showNotification('Order placed successfully!');
+            if (window.app && window.app.showNotification) {
+                window.app.showNotification('Order placed successfully!');
+            }
 
         } catch (error) {
             console.error('Order submission failed:', error);
-            app.showNotification('Failed to place order', 'error');
+            if (window.app && window.app.showNotification) {
+                window.app.showNotification('Failed to place order', 'error');
+            }
         }
     }
 

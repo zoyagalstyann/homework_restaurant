@@ -1,3 +1,10 @@
+import { createClient } from '@supabase/supabase-js';
+
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
+
+export const supabase = createClient(supabaseUrl, supabaseAnonKey);
+
 const API_BASE_URL = 'http://localhost/project/api';
 
 function getSessionId() {
@@ -9,17 +16,6 @@ function getSessionId() {
     }
 
     return sessionId;
-}
-
-function getAdminSessionToken() {
-    let token = sessionStorage.getItem('admin_session_token');
-
-    if (!token) {
-        token = 'admin_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
-        sessionStorage.setItem('admin_session_token', token);
-    }
-
-    return token;
 }
 
 export async function getCartFromDB() {
@@ -100,6 +96,30 @@ export async function setAdminLogin(isLoggedIn) {
         return await response.json();
     } catch (error) {
         console.error('Error updating admin session:', error);
+        throw error;
+    }
+}
+
+export async function getMenuItems() {
+    try {
+        const { data, error } = await supabase
+            .from('menu_items')
+            .select('*')
+            .eq('available', true)
+            .order('category', { ascending: true });
+
+        if (error) throw error;
+
+        return data.map(item => ({
+            id: item.id,
+            name: item.name,
+            description: item.description,
+            price: parseFloat(item.price),
+            category: item.category,
+            image: item.image_url
+        }));
+    } catch (error) {
+        console.error('Error fetching menu items:', error);
         throw error;
     }
 }
