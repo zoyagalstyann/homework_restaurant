@@ -59,11 +59,7 @@ Backend-ը PHP-ով, Database-ը MySQL-ով, կառավարում phpMyAdmin-ո�
 
 ### 5. Frontend կարգավորում
 
-Frontend-ը ավտոմատ կզարգացված է PHP API-ի հետ աշխատելու համար:
-
-Բացեք browser-ում:
-```
-http://localhost/restaurant-system/index.html
+Frontend-ը ավտոմատ կզարգացված է PHP API-ի հետ աշխատելու համար
 ```
 
 ## API Endpoints
